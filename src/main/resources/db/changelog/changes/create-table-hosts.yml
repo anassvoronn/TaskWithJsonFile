@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-hosts-table
+      author: nastya
+      changes:
+        - sqlFile:
+            path: classpath:db/scripts/postgres_init.sql
+            splitStatements: false
