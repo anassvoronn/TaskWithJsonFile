@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,15 +27,32 @@ public class ImportService {
             DeviceConfigDto deviceConfigDto =
                     objectMapper.readValue(new File(path), DeviceConfigDto.class);
 
-            log.info("Starting import of {} hosts from JSON", deviceConfigDto.hosts().size());
+            int hostsCount = deviceConfigDto.hosts() != null ? deviceConfigDto.hosts().size() : 0;
+            int groupsCount = deviceConfigDto.hostsGroup() != null ? deviceConfigDto.hostsGroup().size() : 0;
 
-            List<Host> hosts = deviceConfigDto.hosts().values().stream()
-                    .map(hostMapper::mapDtoToEntity)
-                    .toList();
+            log.info("Starting import: {} hosts, {} host groups", hostsCount, groupsCount);
 
-            hostRepository.saveAll(hosts);
+            List<Host> allHosts = new ArrayList<>();
 
-            log.info("JSON import completed successfully, saved {} hosts", hosts.size());
+            if (deviceConfigDto.hosts() != null) {
+                List<Host> hosts = deviceConfigDto.hosts().values().stream()
+                        .map(hostMapper::mapDtoToEntity)
+                        .toList();
+
+                allHosts.addAll(hosts);
+            }
+
+            if (deviceConfigDto.hostsGroup() != null) {
+                List<Host> groups = deviceConfigDto.hostsGroup().values().stream()
+                        .map(hostMapper::mapDtoToEntity)
+                        .toList();
+
+                allHosts.addAll(groups);
+            }
+
+            hostRepository.saveAll(allHosts);
+
+            log.info("JSON import completed successfully, saved {} entities", allHosts.size());
         } catch (Exception e) {
             log.error("Unexpected error during JSON import: {}", e.getMessage(), e);
             throw new RuntimeException("Unexpected error during JSON import", e);

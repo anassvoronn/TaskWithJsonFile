@@ -12,6 +12,10 @@ public record HostDto(
         String name,
         @JsonProperty("comment")
         String comment,
+        @JsonProperty("comments")
+        String comments,
+        @JsonProperty("members")
+        List<String> members,
         @JsonProperty("ips")
         List<String> ips,
         @JsonProperty("fqdn")

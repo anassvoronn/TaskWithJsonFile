@@ -25,8 +25,15 @@ public class Host {
 
     String name;
     String comment;
+    String comments;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "members", columnDefinition = "jsonb")
+    List<String> members = new ArrayList<>();
+
     boolean isNegate;
     String fqdn;
+
     @Enumerated(EnumType.STRING)
     HostType type;
 

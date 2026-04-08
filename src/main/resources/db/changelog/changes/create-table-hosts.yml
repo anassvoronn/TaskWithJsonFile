@@ -6,3 +6,10 @@ databaseChangeLog:
         - sqlFile:
             path: classpath:db/scripts/postgres_init.sql
             splitStatements: false
+  - changeSet:
+      id: add-members-column
+      author: nastya
+      changes:
+        - sqlFile:
+            path: classpath:db/scripts/postgres_members_column_to_hosts.sql
+            splitStatements: false
