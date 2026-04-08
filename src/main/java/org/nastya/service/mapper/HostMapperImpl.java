@@ -14,6 +14,8 @@ public class HostMapperImpl implements HostMapper {
         Host host = new Host();
         host.setName(dto.name());
         host.setComment(dto.comment());
+        host.setComments(dto.comments());
+        host.setMembers(dto.members());
         host.setNegate(dto.isNegate());
         host.setFqdn(dto.fqdn());
         host.setType(dto.type());
