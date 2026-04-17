@@ -1,5 +1,6 @@
 package org.nastya.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,10 +28,14 @@ public class Service {
     private String name;
     @Column(name = "comment")
     private String comment;
+    @Column(name = "comments")
+    private String comments;
+    @Column(name = "members", columnDefinition = "jsonb")
+    private List<String> members = new ArrayList<>();;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    ServiceType type;
+    private ServiceType type;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "service_definitions", columnDefinition = "jsonb")

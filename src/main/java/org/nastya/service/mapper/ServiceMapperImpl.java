@@ -19,6 +19,8 @@ public class ServiceMapperImpl implements ServiceMapper {
 
         service.setName(dto.name());
         service.setComment(dto.comment());
+        service.setComments(dto.comments());
+        service.setMembers(dto.members());
         service.setType(dto.type());
 
         List<ServiceDefinitions> definitionsList = new ArrayList<>();

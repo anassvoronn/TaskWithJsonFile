@@ -36,11 +36,12 @@ public class ImportService {
                     objectMapper.readValue(new File(path), DeviceConfigDto.class);
 
             int hostsCount = deviceConfigDto.hosts() != null ? deviceConfigDto.hosts().size() : 0;
-            int groupsCount = deviceConfigDto.hostsGroup() != null ? deviceConfigDto.hostsGroup().size() : 0;
+            int hostsGroupsCount = deviceConfigDto.hostsGroup() != null ? deviceConfigDto.hostsGroup().size() : 0;
             int policiesCount = deviceConfigDto.policies() != null ? deviceConfigDto.policies().size() : 0;
             int servicesCount = deviceConfigDto.services() != null ? deviceConfigDto.services().size() : 0;
+            int servicesGroupsCount = deviceConfigDto.servicesGroups() != null ? deviceConfigDto.servicesGroups().size() : 0;
 
-            log.info("Starting import: {} hosts, {} host groups", hostsCount, groupsCount);
+            log.info("Starting import: {} hosts, {} host groups", hostsCount, hostsGroupsCount);
 
             List<Host> allHosts = new ArrayList<>();
 
@@ -75,6 +76,8 @@ public class ImportService {
 
             List<org.nastya.entity.Service> allServices = new ArrayList<>();
 
+            log.info("Starting import: {} services, {} service groups", servicesCount, servicesGroupsCount);
+
             if (deviceConfigDto.services() != null) {
                 List<org.nastya.entity.Service> services = deviceConfigDto.services().values().stream()
                         .map(serviceMapper::mapDtoToEntity)
@@ -83,7 +86,16 @@ public class ImportService {
                 allServices.addAll(services);
             }
 
+            if (deviceConfigDto.servicesGroups() != null) {
+                List<org.nastya.entity.Service> services = deviceConfigDto.servicesGroups().values().stream()
+                        .map(serviceMapper::mapDtoToEntity)
+                        .toList();
+
+                allServices.addAll(services);
+            }
+
             servicesRepository.saveAll(allServices);
+            log.info("Saved {} services/groups", allServices.size());
 
             log.info("JSON import completed successfully, saved {} entities", allHosts.size());
         } catch (Exception e) {

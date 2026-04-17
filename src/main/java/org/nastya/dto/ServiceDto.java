@@ -10,6 +10,11 @@ public record ServiceDto(
         String name,
         @JsonProperty("comment")
         String comment,
+        @JsonProperty("comments")
+        String comments,
+        @JsonProperty("members")
+        List<String> members,
+
         @JsonProperty("type")
         ServiceType type,
         @JsonProperty("service_definitions")

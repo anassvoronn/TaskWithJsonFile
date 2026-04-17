@@ -27,3 +27,10 @@ databaseChangeLog:
         - sqlFile:
             path: classpath:db/scripts/postgres_create_services_table.sql
             splitStatements: false
+  - changeSet:
+      id: add-columns-in-services
+      author: nastya
+      changes:
+        - sqlFile:
+            path: classpath:db/scripts/postgres_add_columns_in_services.sql
+            splitStatements: false
