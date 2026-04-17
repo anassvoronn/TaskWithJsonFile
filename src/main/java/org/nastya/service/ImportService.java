@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nastya.dto.DeviceConfigDto;
 import org.nastya.entity.Host;
+import org.nastya.entity.Policy;
 import org.nastya.repository.HostsRepository;
+import org.nastya.repository.PoliciesRepository;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +23,8 @@ public class ImportService {
     private final ObjectMapper objectMapper;
     private final HostsRepository hostRepository;
     private final HostMapper hostMapper;
+    private final PolicyMapper policyMapper;
+    private final PoliciesRepository policiesRepository;
 
     public void importJson(String path) {
         try {
@@ -29,6 +33,7 @@ public class ImportService {
 
             int hostsCount = deviceConfigDto.hosts() != null ? deviceConfigDto.hosts().size() : 0;
             int groupsCount = deviceConfigDto.hostsGroup() != null ? deviceConfigDto.hostsGroup().size() : 0;
+            int policiesCount = deviceConfigDto.policies() != null ? deviceConfigDto.policies().size() : 0;
 
             log.info("Starting import: {} hosts, {} host groups", hostsCount, groupsCount);
 
@@ -51,6 +56,17 @@ public class ImportService {
             }
 
             hostRepository.saveAll(allHosts);
+            log.info("Saved {} hosts/groups", allHosts.size());
+
+            log.info("Starting import: {} policies", policiesCount);
+
+            if (deviceConfigDto.policies() != null) {
+                List<Policy> policies = deviceConfigDto.policies().values().stream()
+                        .map(policyMapper::mapDtoToEntity)
+                        .toList();
+                policiesRepository.saveAll(policies);
+                log.info("Saved {} policies", policies.size());
+            }
 
             log.info("JSON import completed successfully, saved {} entities", allHosts.size());
         } catch (Exception e) {

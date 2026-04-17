@@ -13,3 +13,10 @@ databaseChangeLog:
         - sqlFile:
             path: classpath:db/scripts/postgres_members_column_to_hosts.sql
             splitStatements: false
+  - changeSet:
+      id: create-policies-table
+      author: nastya
+      changes:
+        - sqlFile:
+            path: classpath:db/scripts/postgres_create_policies_table.sql
+            splitStatements: false

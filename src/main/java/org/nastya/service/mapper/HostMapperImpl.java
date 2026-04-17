@@ -1,8 +1,8 @@
 package org.nastya.service.mapper;
 
-import org.nastya.dto.AdditionalPropertyDto;
+import org.nastya.dto.HostAdditionalPropertyDto;
 import org.nastya.dto.HostDto;
-import org.nastya.entity.AdditionalProperty;
+import org.nastya.entity.HostAdditionalProperty;
 import org.nastya.entity.Host;
 import org.nastya.service.HostMapper;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,9 @@ public class HostMapperImpl implements HostMapper {
         host.setType(dto.type());
         host.setIps(dto.ips());
 
-        AdditionalPropertyDto dtoProp = dto.additionalProperties();
+        HostAdditionalPropertyDto dtoProp = dto.additionalProperties();
         if (dtoProp != null) {
-            AdditionalProperty additionalProperty = new AdditionalProperty(
+            HostAdditionalProperty additionalProperty = new HostAdditionalProperty(
                     dtoProp.originalName(),
                     dtoProp.broadcast(),
                     Boolean.TRUE.equals(dtoProp.natAutoRule()),

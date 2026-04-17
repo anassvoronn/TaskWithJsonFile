@@ -2,7 +2,7 @@ package org.nastya.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record AdditionalPropertyDto(
+public record HostAdditionalPropertyDto(
         @JsonProperty("original_name") String originalName,
         @JsonProperty("broadcast") String broadcast,
         @JsonProperty("nat-auto-rule") Boolean natAutoRule,
