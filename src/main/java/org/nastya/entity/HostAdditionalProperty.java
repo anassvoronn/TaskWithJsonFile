@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdditionalProperty {
+public class HostAdditionalProperty {
     private String originalName;
     private String broadcast;
     private boolean natAutoRule;

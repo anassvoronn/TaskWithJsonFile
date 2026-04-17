@@ -43,5 +43,5 @@ public class Host {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "additional_properties", columnDefinition = "jsonb")
-    private List<AdditionalProperty> additionalProperties = new ArrayList<>();
+    private List<HostAdditionalProperty> additionalProperties = new ArrayList<>();
 }

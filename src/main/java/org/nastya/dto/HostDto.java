@@ -25,5 +25,5 @@ public record HostDto(
         @JsonProperty("type")
         HostType type,
         @JsonProperty("additional_properties")
-        AdditionalPropertyDto additionalProperties) {
+        HostAdditionalPropertyDto additionalProperties) {
 }
