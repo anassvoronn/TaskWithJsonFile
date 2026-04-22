@@ -1,6 +1,7 @@
 package org.nastya.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nastya.dto.DeviceConfigDto;
@@ -10,8 +11,6 @@ import org.nastya.repository.HostsRepository;
 import org.nastya.repository.PoliciesRepository;
 import org.nastya.repository.ServicesRepository;
 import org.springframework.stereotype.Service;
-
-
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ public class ImportService {
     private final ServiceMapper serviceMapper;
     private final ServicesRepository servicesRepository;
 
+    @Transactional
     public void importJson(String path) {
         try {
             DeviceConfigDto deviceConfigDto =
