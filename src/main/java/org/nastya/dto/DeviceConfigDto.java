@@ -10,5 +10,8 @@ public record DeviceConfigDto(
         Map<String, HostDto> hosts,
         @JsonProperty("hosts_groups")
         Map<String, HostDto> hostsGroup,
-        Map<String, PolicyDto> policies) {
+        Map<String, PolicyDto> policies,
+        Map<String, ServiceDto> services,
+        @JsonProperty("services_groups")
+        Map<String, ServiceDto> servicesGroups) {
 }

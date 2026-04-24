@@ -1,6 +1,7 @@
 package org.nastya.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.nastya.dto.DeviceConfigDto;
@@ -8,8 +9,8 @@ import org.nastya.entity.Host;
 import org.nastya.entity.Policy;
 import org.nastya.repository.HostsRepository;
 import org.nastya.repository.PoliciesRepository;
+import org.nastya.repository.ServicesRepository;
 import org.springframework.stereotype.Service;
-
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,17 +26,22 @@ public class ImportService {
     private final HostMapper hostMapper;
     private final PolicyMapper policyMapper;
     private final PoliciesRepository policiesRepository;
+    private final ServiceMapper serviceMapper;
+    private final ServicesRepository servicesRepository;
 
+    @Transactional
     public void importJson(String path) {
         try {
             DeviceConfigDto deviceConfigDto =
                     objectMapper.readValue(new File(path), DeviceConfigDto.class);
 
             int hostsCount = deviceConfigDto.hosts() != null ? deviceConfigDto.hosts().size() : 0;
-            int groupsCount = deviceConfigDto.hostsGroup() != null ? deviceConfigDto.hostsGroup().size() : 0;
+            int hostsGroupsCount = deviceConfigDto.hostsGroup() != null ? deviceConfigDto.hostsGroup().size() : 0;
             int policiesCount = deviceConfigDto.policies() != null ? deviceConfigDto.policies().size() : 0;
+            int servicesCount = deviceConfigDto.services() != null ? deviceConfigDto.services().size() : 0;
+            int servicesGroupsCount = deviceConfigDto.servicesGroups() != null ? deviceConfigDto.servicesGroups().size() : 0;
 
-            log.info("Starting import: {} hosts, {} host groups", hostsCount, groupsCount);
+            log.info("Starting import: {} hosts, {} host groups", hostsCount, hostsGroupsCount);
 
             List<Host> allHosts = new ArrayList<>();
 
@@ -67,6 +73,29 @@ public class ImportService {
                 policiesRepository.saveAll(policies);
                 log.info("Saved {} policies", policies.size());
             }
+
+            List<org.nastya.entity.Service> allServices = new ArrayList<>();
+
+            log.info("Starting import: {} services, {} service groups", servicesCount, servicesGroupsCount);
+
+            if (deviceConfigDto.services() != null) {
+                List<org.nastya.entity.Service> services = deviceConfigDto.services().values().stream()
+                        .map(serviceMapper::mapDtoToEntity)
+                        .toList();
+
+                allServices.addAll(services);
+            }
+
+            if (deviceConfigDto.servicesGroups() != null) {
+                List<org.nastya.entity.Service> services = deviceConfigDto.servicesGroups().values().stream()
+                        .map(serviceMapper::mapDtoToEntity)
+                        .toList();
+
+                allServices.addAll(services);
+            }
+
+            servicesRepository.saveAll(allServices);
+            log.info("Saved {} services/groups", allServices.size());
 
             log.info("JSON import completed successfully, saved {} entities", allHosts.size());
         } catch (Exception e) {
