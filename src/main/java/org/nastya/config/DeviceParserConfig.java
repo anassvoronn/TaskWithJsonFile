@@ -1,5 +1,6 @@
 package org.nastya.config;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
 import org.nastya.service.ImportService;
@@ -18,7 +19,11 @@ public class DeviceParserConfig{
     }
 
     @Bean
-    ObjectMapper myObjectMapper() {
-        return new ObjectMapper();
+    public ObjectMapper myObjectMapper() {
+        JsonFactory factory = JsonFactory.builder()
+                .disable(JsonFactory.Feature.FAIL_ON_SYMBOL_HASH_OVERFLOW)
+                .build();
+
+        return new ObjectMapper(factory);
     }
 }
