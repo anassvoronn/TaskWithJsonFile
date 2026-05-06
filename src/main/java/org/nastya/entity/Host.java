@@ -10,6 +10,7 @@ import org.nastya.enums.HostType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "hosts")
@@ -21,25 +22,25 @@ public class Host {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+    private UUID id;
 
-    String name;
-    String comment;
-    String comments;
+    private String name;
+    private String comment;
+    private String comments;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "members", columnDefinition = "jsonb")
-    List<String> members = new ArrayList<>();
+    private List<String> members = new ArrayList<>();
 
-    boolean isNegate;
-    String fqdn;
+    private boolean isNegate;
+    private String fqdn;
 
     @Enumerated(EnumType.STRING)
-    HostType type;
+    private HostType type;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "ips", columnDefinition = "jsonb")
-    List<String> ips = new ArrayList<>();
+    private List<String> ips = new ArrayList<>();
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "additional_properties", columnDefinition = "jsonb")

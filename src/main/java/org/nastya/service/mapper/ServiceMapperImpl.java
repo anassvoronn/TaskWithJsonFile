@@ -2,7 +2,7 @@ package org.nastya.service.mapper;
 
 import org.nastya.dto.ServiceDefinitionsDto;
 import org.nastya.dto.ServiceDto;
-import org.nastya.entity.Service;
+import org.nastya.entity.MyService;
 import org.nastya.entity.ServiceAdditionalProperty;
 import org.nastya.entity.ServiceDefinitions;
 import org.nastya.service.ServiceMapper;
@@ -14,8 +14,8 @@ import java.util.List;
 @Component
 public class ServiceMapperImpl implements ServiceMapper {
     @Override
-    public Service mapDtoToEntity(ServiceDto dto) {
-        Service service = new Service();
+    public MyService mapDtoToEntity(ServiceDto dto) {
+        MyService service = new MyService();
 
         service.setName(dto.name());
         service.setComment(dto.comment());

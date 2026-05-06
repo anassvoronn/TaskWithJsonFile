@@ -17,7 +17,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class MyService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
