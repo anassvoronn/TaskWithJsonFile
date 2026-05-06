@@ -1,8 +1,8 @@
 package org.nastya.service;
 
 import org.nastya.dto.ServiceDto;
-import org.nastya.entity.Service;
+import org.nastya.entity.MyService;
 
 public interface ServiceMapper {
-    Service mapDtoToEntity(ServiceDto dto);
+    MyService mapDtoToEntity(ServiceDto dto);
 }
